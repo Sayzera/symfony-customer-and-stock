@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductsController!{% endblock %}
+
+{% block body %}
+
+<div class="py-5">
+
+
+<h1 class="text-white text-xl mb-5">Ürünler</h1>
+
+{% for message in app.flashes('success') %}
+    <div class="mt-4 flex p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+    <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+    <span class="sr-only">Info</span>
+    <div>
+    <span class="font-medium">{{ message }}</span>
+    </div>
+    </div>
+
+{% endfor %}
+
+
+<div class="overflow-x-auto relative">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    #
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Ürün Adı 
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Ürün Resmi 
+                </th>
+                <th>
+                  Resim Sayısı
+                </th>
+                <th scope="col" class="py-3 px-6">
+                   Fıyatı
+                </th>
+
+                <th>
+                    Kategori
+                </th>
+
+                 <th scope="col" class="py-3 px-6">
+                   İşlemler
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                 {{loop.index}}
+                </th>
+                <td class="py-4 px-6">
+                {{product.name}}
+                </td>
+                <td class="py-4 px-6">
+                {% if product.getImages|length > 0   %}
+                 <img  class="h-24 bg-red-500 rounded-lg" style="height:100px;width:100px" src="{{asset('uploads/images/' ~ product.getImages[0].imageName())}}" alt="" >
+                {% else %}
+                Resim Bulunamadı
+                {% endif %}
+                </td>
+                <td>
+                    {{product.getImages|length}}
+                </td>
+
+                <td class="py-4 px-6">
+                {{product.price}}
+                </td>
+
+                <td>
+                    {{product.getCategories.name()}}
+                </td>
+
+                <td>
+                <a href="{{path('app_products_edit', {'id': product.id})}}" 
+                class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Düzenle</a>
+                <a  href=""
+                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4
+                 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2
+                  dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Sil</a>
+
+                </td>
+                    
+            </tr>
+            {% endfor %}
+         
+          
+        </tbody>
+    </table>
+</div></div>
+
+
+{% endblock %}

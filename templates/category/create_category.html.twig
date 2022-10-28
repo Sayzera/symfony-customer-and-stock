@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kategori Oluştur{% endblock %}
+
+{% block body %}
+
+<div>
+  
+    <h1 class="text-white underline mb-10">Kategori Oluştur</h1>
+ 
+    {# Form #}
+    {# {% for error in errors %}
+        <li>{{ error.message }}</li>
+    {% endfor %} #}
+
+    {{ form_start(form) }}
+    <div class="flex flex-col my-3 space-y-1">
+    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kategori Adı</label>
+    {{ form_widget(form.name, {'attr': {'class': ' bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'}}) }}
+
+    {% if form_errors(form.name) %}
+    <div class="flex text-sm text-red-700 rounded-lg  dark:text-red-800" role="alert">
+    <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+    <span class="sr-only">Info</span>
+        <div class="text-m">
+        {{ form_errors(form.name) }}
+        </div>
+    </div>
+    {% endif %}
+
+
+    </div>
+    </div>
+    <button type="submit" class="mt-4 w-full py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Kaydet</button>
+
+   
+    {{ form_end(form) }}
+</div>
+
+
+{% endblock %}
