@@ -6,20 +6,22 @@ use App\Entity\Images;
 use App\Entity\Products;
 use App\Form\ImageFormType;
 use App\Form\ProductFormType;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class ProductsController extends AbstractController
 {
+
     public $entityManager;
     public function __construct(ManagerRegistry $registry)
     {
         $this->entityManager = $registry->getManager();
     }
-
 
     #[Route('/products', name: 'app_products')]
     public function index(): Response
@@ -71,6 +73,24 @@ class ProductsController extends AbstractController
             'form' => $form->createView(),
             'errors' => $form->getErrors(true, true)
         ]);
+    }
+
+    #[Route('/products/delete/{id}', name: 'app_products_delete')]
+    public function product_delete(Products $products): Response
+    {
+        $products->getImages()->map(function ($image) {
+
+            if (file_exists($this->getParameter('images_directory') . '/' . $image->getImageName())) {
+                unlink($this->getParameter('images_directory') . '/' . $image->getImageName());
+            }
+        });
+
+        $this->entityManager->remove($products);
+        $this->entityManager->flush();
+
+
+        $this->addFlash('success', 'Ürün başarıyla silindi');
+        return $this->redirectToRoute('app_products');
     }
 
     #[Route('/products/edit/{id}', name: 'app_products_edit')]

@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kayıt Ol
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="w-full md:flex md:flex-row md:justify-center md:mt-5 ">
+		<div class="p-4 w-full md:max-w-sm bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+
+			{{form_start(form)}}
+			<h5 class="text-xl font-medium text-gray-900 dark:text-white mb-5">Kayıt Ol</h5>
+
+			<div class="mb-2">
+				<label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">E Posta</label>
+				{{ form_widget(form.email, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white'}})}}
+
+				{% if form_errors(form.email)  |default %}
+					<div class="flex text-sm text-red-700 rounded-lg  dark:text-red-800" role="alert">
+						<svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+						</svg>
+						<span class="sr-only">Info</span>
+						<div class="text-m">
+							{{ form_errors(form.email) }}
+						</div>
+					</div>
+				{% endif %}
+
+			</div>
+
+
+			<div class="mb-2">
+				<label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Şifre</label>
+				{{ form_row(form.password.first, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white'}})}}
+
+				{% if form_errors(form.password)|default %}
+					<div class="flex text-sm text-red-700 rounded-lg  dark:text-red-800" role="alert">
+						<svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+						</svg>
+						<span class="sr-only">Info</span>
+						<div class="text-m">
+							{{ form_errors(form.password) }}
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			<div class="mb-2">
+				<label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tekrar Şifre</label>
+				{{ form_row(form.password.second, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white'}})}}
+			</div>
+
+			<div class="mb-5">
+				<label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Rol Seçiniz</label>
+				{{ form_widget(form.roles, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white'}})}}
+
+				{% if form_errors(form.roles) |default %}
+					<div class="flex text-sm text-red-700 rounded-lg  dark:text-red-800" role="alert">
+						<svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+						</svg>
+						<span class="sr-only">Info</span>
+						<div class="text-m">
+							{{ form_errors(form.roles) }}
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			<button type="submit" class="mt-2 mb-2 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+				Kayıt Ol
+			</button>
+
+			{{form_end(form)}}
+
+
+			<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+				Zaten bir hesabım var
+				<a href="{{path('app_login')}}" class="text-blue-700 hover:underline dark:text-blue-500">Giriş Yap</a>
+			</div>
+		</form>
+	</div>
+</div>{% endblock %}

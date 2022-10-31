@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\CategoriesRepository;
 use App\Repository\ProductsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -29,6 +30,9 @@ class Products
     private ?string $price = null;
 
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?int $categories_id = null;
+
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank(message: 'Ürün açıklaması boş bırakılamaz')]
@@ -38,10 +42,14 @@ class Products
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[Assert\NotBlank(message: 'Kategori seçimi boş bırakılamaz')]
+
     private ?Categories $categories = null;
 
-    #[ORM\OneToMany(mappedBy: 'products', targetEntity: Images::class)]
+    #[ORM\OneToMany(mappedBy: 'products', targetEntity: Images::class, cascade: ['persist', 'remove'])]
     private Collection $images;
+
+    #[ORM\ManyToMany(targetEntity: Basket::class, mappedBy: 'products')]
+    private Collection $baskets;
 
 
 
@@ -49,7 +57,9 @@ class Products
     {
         $this->category = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->baskets = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -137,6 +147,33 @@ class Products
             if ($image->getProducts() === $this) {
                 $image->setProducts(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Basket>
+     */
+    public function getBaskets(): Collection
+    {
+        return $this->baskets;
+    }
+
+    public function addBasket(Basket $basket): self
+    {
+        if (!$this->baskets->contains($basket)) {
+            $this->baskets->add($basket);
+            $basket->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBasket(Basket $basket): self
+    {
+        if ($this->baskets->removeElement($basket)) {
+            $basket->removeProduct($this);
         }
 
         return $this;

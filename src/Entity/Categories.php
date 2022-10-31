@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CategoriesRepository::class)]
 
+
 class Categories
 {
     #[ORM\Id]
@@ -23,7 +24,7 @@ class Categories
     #[Assert\Length(max: 255, maxMessage: 'Kategori adı en fazla 255 karakter olmalıdır')]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Products::class)]
+    #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Products::class,  fetch: 'EAGER')]
     private Collection $products;
 
     public function __toString()
