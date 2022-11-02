@@ -49,6 +49,15 @@ class SalesController extends AbstractController
         ]);
     }
 
+    #[Route('/urun/{id}', name: 'app_sales_product')]
+    public function product(Products $product): Response
+    {
+        return $this->render('sales/productDetail.html.twig', [
+            'controller_name' => 'SalesController',
+            'product' => $product,
+        ]);
+    }
+
 
     #[Route('/search', name: 'app_search', methods: ['POST'])]
     public function searchData(Request $request, ProductsRepository $repo)

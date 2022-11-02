@@ -35,4 +35,27 @@ class BasketController extends AbstractController
         // go back
         return $this->redirectToRoute('app_sales');
     }
+
+
+    #[Route('/basket', name: 'app_basket_list')]
+    public function basketList(): Response
+    {
+        $user = $this->getUser();
+        $basket = $this->entityManager->getRepository(Basket::class)->findBy(['user' => $user]);
+
+        return $this->render('basket/index.html.twig', [
+            'basket' => $basket,
+        ]);
+    }
+
+    #[Route('/basket/delete/{id}', name: 'app_basket_delete')]
+    public function basket_delete(Basket $basket): Response
+    {
+        $this->entityManager->remove($basket);
+        $this->entityManager->flush();
+
+        $this->addFlash('success-basket', 'Ürün sepetten silindi');
+        // go back
+        return $this->redirectToRoute('app_basket_list');
+    }
 }

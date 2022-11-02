@@ -1,20 +1,76 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BasketController!{% endblock %}
+{% block title %}Hello BasketController!
+{% endblock %}
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/sezerboluk/Desktop/symfony-app/src/Controller/BasketController.php'|file_link(0) }}">src/Controller/BasketController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/sezerboluk/Desktop/symfony-app/templates/basket/index.html.twig'|file_link(0) }}">templates/basket/index.html.twig</a></code></li>
-    </ul>
-</div>
+	<div class="container mx-auto md:px-20 mt-10">
+		<div class="flex w-full justify-between items-center mt-4 mb-5">
+			<div>
+				<a href="{{path('app_sales')}}">
+					<i class="fa-solid fa-left-long text-white cursor-pointer" style="font-size:30px"></i>
+				</a>
+			</div>
+
+		</div>
+
+		<ul class=" divide-y divide-gray-200 dark:divide-gray-700">
+			{% set product = 0 %}
+			{% for item in basket %}
+
+
+				{% set product = product +  (item.qty * item.products.first.getPrice()) %}
+
+				<li class="pb-3 sm:pb-4 mt-10">
+					<div class="flex items-center space-x-4">
+						<div class="flex-shrink-0">
+							<img class="w-16 h-16 rounded-full" src="{{asset('/uploads/images/' ~ item.products.first.images.first.getImageName())}}" alt="Neil image">
+						</div>
+						<div class="flex-1 min-w-0">
+							<p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+								{{item.products.first.getName()}}
+							</p>
+							<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+								{{ item.qty}}
+								*
+								{{item.products.first.getPrice()}}
+								₺
+							</p>
+						</div>
+						<div class="flex items-center text-base font-semibold text-gray-900 dark:text-white space-x-2">
+							<span>
+								{{( item.qty * item.products.first.getPrice()) | number_format(2, ',', ' ') }}
+								₺</span>
+							<a href="{{path('app_basket_delete',{id:item.id})}}" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Sepetten Çıkar</a>
+
+						</div>
+
+					</div>
+				</li>
+
+
+			{% endfor %}
+
+
+			<div id="alert-1" class="flex p-4 mb-4 bg-blue-100 rounded-lg dark:bg-blue-200 mt-5" role="alert">
+				<div class="flex justify-end w-full ">
+
+					<span class="sr-only">Info</span>
+					<div class="ml-3 text-sm font-medium text-blue-700 dark:text-blue-800">
+						Toplam Tutar :
+						{{product | number_format(2, ',', ' ') }}
+						₺
+
+					</div>
+				</div>
+
+			</div>
+
+		</ul>
+	</div>
+
+
 {% endblock %}
